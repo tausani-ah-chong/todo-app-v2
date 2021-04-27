@@ -1,16 +1,12 @@
-
-import { NextApiHandler } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { query } from '../../lib/db'
 
-const handler: NextApiHandler = async (_, res) => {
+async function handler (_: NextApiRequest, res: NextApiResponse): Promise<void> {
   try {
     const results = await query(`
       SELECT * FROM todos
-      ORDER BY id DESC
-      LIMIT 10
   `)
-
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(500).json({ message: e.message })
   }
