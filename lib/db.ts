@@ -1,4 +1,3 @@
-
 import mysql from 'serverless-mysql'
 
 export const db = mysql({
