@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Router from 'next/router'
-import { useState } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 import Axios from 'axios'
 import useSwr from 'swr'
 
@@ -23,11 +23,11 @@ function Home (): JSX.Element {
 		done: boolean
 	}
 
-  function onChange(e) {
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
     setNewTodo(e.target.value)
   }
 
-  async function onSubmit(e) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     await Axios({method: 'post', url: postRoute, data: {text: newTodo}})
     Router.push('/')
