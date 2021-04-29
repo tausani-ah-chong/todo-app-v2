@@ -1,10 +1,18 @@
 import Head from 'next/head'
+import Router from 'next/router'
+import { useState } from 'react'
+import Axios from 'axios'
 import useSwr from 'swr'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 function Home (): JSX.Element {
-  const { data, error } = useSwr('http://localhost:3000/api/get-todos', fetcher)
+  const getRoute = 'http://localhost:3000/api/get-todos'
+  const postRoute = 'http://localhost:3000/api/create-todo'
+
+  const { data, error } = useSwr(getRoute, fetcher)
+
+  const [newTodo, setNewTodo] = useState('')
 
   if (error) return <div>Failed to load users</div>
   if (!data) return <div>Loading...</div>
@@ -14,6 +22,16 @@ function Home (): JSX.Element {
 		text: string
 		done: boolean
 	}
+
+  function onChange(e) {
+    setNewTodo(e.target.value)
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault()
+    await Axios({method: 'post', url: postRoute, data: {text: newTodo}})
+    Router.push('/')
+  }
 
   return (
     <div>
@@ -27,8 +45,8 @@ function Home (): JSX.Element {
           <h1>Todo App</h1>
         </header>
         <main>
-          <form action="" className="todo">
-            <input type="text" placeholder="What do you want to achieve?" />
+          <form action='POST' className="todo" onSubmit={onSubmit}>
+            <input type="text" id="text" name="text" placeholder="What do you want to achieve?" value={newTodo} onChange={onChange} />
           </form>
           <ul className="todos">
             {data.map((todo: Todo) => {
