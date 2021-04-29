@@ -30,7 +30,9 @@ function Home (): JSX.Element {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     await Axios({method: 'post', url: postRoute, data: {text: newTodo}})
-    Router.push('/')
+      .then(() => {
+        Router.reload()
+      })
   }
 
   return (
