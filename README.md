@@ -10,6 +10,5 @@ This time around I am going with NextJS as I had been told it is easier to creat
 
 - NextJS
 - TypeScript
-- Express
-- MySQL
+- MySQL (AWS)
 - Axios
